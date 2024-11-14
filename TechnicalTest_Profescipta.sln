@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalTest_Profescipta", "TechnicalTest_Profescipta\TechnicalTest_Profescipta.csproj", "{DD27BEBE-E07D-4C7D-BD26-3C4974A52632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalTest_Profescipta.DAL", "TechnicalTest_Profescipta.DAL\TechnicalTest_Profescipta.DAL.csproj", "{1C8FFC08-7903-4C9D-A7B2-E7084CAE79A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD27BEBE-E07D-4C7D-BD26-3C4974A52632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD27BEBE-E07D-4C7D-BD26-3C4974A52632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD27BEBE-E07D-4C7D-BD26-3C4974A52632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD27BEBE-E07D-4C7D-BD26-3C4974A52632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8FFC08-7903-4C9D-A7B2-E7084CAE79A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8FFC08-7903-4C9D-A7B2-E7084CAE79A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8FFC08-7903-4C9D-A7B2-E7084CAE79A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8FFC08-7903-4C9D-A7B2-E7084CAE79A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEC389D1-C949-47BF-9937-F90C4F74E9A4}
+	EndGlobalSection
+EndGlobal
