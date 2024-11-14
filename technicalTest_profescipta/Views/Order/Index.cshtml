@@ -1,0 +1,71 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="keywords">Keywords</label>
+                            <input type="text" id="keywords" class="form-control" placeholder="keywords" aria-label="keywords" aria-describedby="keywords">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="order-date">Order Date</label>
+                            <input type="date" id="order-date" class="form-control" placeholder="Order Date" aria-label="Order Date" aria-describedby="Order Date">
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-row-reverse">
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="/order/new" type="button" class="btn bg-gradient-info"><i class="fa fa-plus"></i> Add New Data</a>
+                        <button type="button" class="btn btn-success"><i class="fa fa-file-excel"></i> Export To Excel</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <table id="myTable" class="display">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Action</th>
+                                    <th>Sales Order</th>
+                                    <th>Order Date</th>
+                                    <th>Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                searching: false,
+                responsive: true,
+                lengthChange: false,
+                ordering: false,
+            });
+        } );
+    </script>
+}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechnicalTest_Profescipta.Common\TechnicalTest_Profescipta.Common.csproj" />
+    <ProjectReference Include="..\TechnicalTest_Profescipta.DAL\TechnicalTest_Profescipta.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

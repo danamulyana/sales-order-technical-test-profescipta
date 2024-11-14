@@ -4,12 +4,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>8605d11d-fc51-472e-8d1a-5585dcf5b478</UserSecretsId>
+    <UserSecretsId>ce2f8a21-16a6-4deb-ad9e-bdb19bf5cd33</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechnicalTest_Profescipta.Common\TechnicalTest_Profescipta.Common.csproj" />
+    <ProjectReference Include="..\TechnicalTest_Profescipta.Services\TechnicalTest_Profescipta.Services.csproj" />
   </ItemGroup>
 
 </Project>

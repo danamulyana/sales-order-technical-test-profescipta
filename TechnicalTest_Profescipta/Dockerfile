@@ -2,7 +2,7 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["TechnicalTest_Profescipta/TechnicalTest_Profescipta.csproj", "TechnicalTest_Profescipta/"]
-RUN dotnet restore "./TechnicalTest_Profescipta/TechnicalTest_Profescipta.csproj"
+COPY ["technicalTest_profescipta/technicalTest_profescipta.csproj", "technicalTest_profescipta/"]
+RUN dotnet restore "./technicalTest_profescipta/technicalTest_profescipta.csproj"
 COPY . .
-WORKDIR "/src/TechnicalTest_Profescipta"
-RUN dotnet build "./TechnicalTest_Profescipta.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/technicalTest_profescipta"
+RUN dotnet build "./technicalTest_profescipta.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./TechnicalTest_Profescipta.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./technicalTest_profescipta.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TechnicalTest_Profescipta.dll"]
+ENTRYPOINT ["dotnet", "technicalTest_profescipta.dll"]

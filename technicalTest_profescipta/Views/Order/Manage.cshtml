@@ -1,0 +1,127 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h1 class="h6 text-center">Sales Order Information</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="sales-order-number">Sales Order Number <span class="text-danger">*</span></label>
+                            <input type="text" id="sales-order-number" class="form-control" placeholder="Sales Order Number" aria-label="sales-order-number" aria-describedby="sales-order-number">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="customer">Customer <span class="text-danger">*</span></label>
+                            <select type="" id="customer" class="form-control" asp-items="ViewBag.customer" aria-label="Customer" aria-describedby="Customer">
+                                <option value="">Please Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="order-date">Order Date <span class="text-danger">*</span></label>
+                            <input type="date" id="order-date" class="form-control" placeholder="Order Date" aria-label="Order Date" aria-describedby="Order Date">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="address">Address <span class="text-danger">*</span></label>
+                            <textarea id="address" class="form-control" placeholder="Address" aria-label="Address" aria-describedby="Address"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h1 class="h6 text-center">Detail Item Information</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <button id="btnAddItem" class="btn btn-primary mb-3"><i class="fa fa-plus"></i> Add Item</button>
+                    </div>
+                    <div class="col-12">
+
+                        <table id="table-item" class="table table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Action</th>
+                                    <th>Item Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">Total Items:</th>
+                                    <th id="totalItems">0</th>
+                                    <th>Total Amount:</th>
+                                    <th id="totalAmount">0</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <div class="text-center">
+                            <button id="btnSaveOrder" class="btn btn-success">Save</button>
+                            <button id="btnClose" class="btn btn-secondary" onclick="window.location.href='/order'">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        const table = $('#table-item').DataTable({
+                searching: false,
+                responsive: true,
+                lengthChange: false,
+                ordering: false,
+                columns: [
+                    { 
+                        data: 'SO_ITEM_ID',
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        } 
+                    },
+                    {
+                        data: null,
+                        defaultContent: '<button class="btn btn-sm btn-primary btn-save">Save</button>'
+                    },
+                    { data: 'SO_ORDER_ID' },
+                    {
+                        data: 'ITEM_NAME',
+                        render: function (data, type, row) {
+                            return `<input type="text" class="form-control item-name" value="${data}" data-id="${row.SO_ITEM_ID}">`;
+                        }
+                    },
+                    {
+                        data: 'QUANTITY',
+                        render: function (data, type, row) {
+                            return `<input type="number" class="form-control quantity" value="${data}" data-id="${row.SO_ITEM_ID}">`;
+                        }
+                    },
+                    {
+                        data: 'PRICE',
+                        render: function (data, type, row) {
+                            return `<input type="number" class="form-control price" value="${data}" step="0.01" data-id="${row.SO_ITEM_ID}">`;
+                        }
+                    }
+                ]
+        });
+
+    </script>
+}
