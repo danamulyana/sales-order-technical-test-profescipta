@@ -2,17 +2,25 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
+RUN apt update && apt install tzdata -y
+ENV TZ="Asia/Jakarta"
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
+RUN apt-get update && \
+    apt-get install -y libgdiplus && \
+    apt-get install -y libc6-dev && \
+    ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["technicalTest_profescipta/technicalTest_profescipta.csproj", "technicalTest_profescipta/"]
+COPY ["TechnicalTest_profescipta.Common/TechnicalTest_profescipta.Common.csproj", "TechnicalTest_profescipta.Common/"]
+COPY ["TechnicalTest_profescipta.Services/TechnicalTest_profescipta.Services.csproj", "TechnicalTest_profescipta.Services/"]
+COPY ["TechnicalTest_profescipta.DAL/TechnicalTest_profescipta.DAL.csproj", "TechnicalTest_profescipta.DAL/"]
 RUN dotnet restore "./technicalTest_profescipta/technicalTest_profescipta.csproj"
 COPY . .
 WORKDIR "/src/technicalTest_profescipta"
