@@ -6,7 +6,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="keywords">Keywords</label>
-                            <input type="text" id="keywords" class="form-control" placeholder="keywords" aria-label="keywords" aria-describedby="keywords">
+                            <input type="text" id="keyword" class="form-control" placeholder="keywords" aria-label="keywords" aria-describedby="keywords">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="row flex-row-reverse">
                     <div class="col-12 text-end">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                        <button type="button" id="btnSearch" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-12">
                         <a href="/order/new" type="button" class="btn bg-gradient-info"><i class="fa fa-plus"></i> Add New Data</a>
-                        <button type="button" class="btn btn-success"><i class="fa fa-file-excel"></i> Export To Excel</button>
+                        <button type="button" id="export" class="btn btn-success"><i class="fa fa-file-excel"></i> Export To Excel</button>
                     </div>
                 </div>
                 <div class="row">
@@ -60,12 +60,119 @@
 @section Scripts{
     <script>
         $(document).ready( function () {
-            $('#myTable').DataTable({
+            let table = $('#myTable').DataTable({
                 searching: false,
                 responsive: true,
                 lengthChange: false,
                 ordering: false,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: '/order/datalist',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    "data": function (d) {
+                        d.search.value = $('#keyword').val();
+                        d.orderDate = $('#order-date').val();
+                        return JSON.stringify(d);
+                    },
+                    "dataType": "json",
+                     "dataSrc": "data"
+                },
+                columns: [
+                    {
+                        data: "SoOrderId",
+                        render: function (data, type, row, meta) {
+                            return meta.row + 1 + meta.settings._iDisplayStart;
+                        },
+                        "orderable": false
+                    },
+                    {
+                        data: "SoOrderId",
+                        render: function (data, type, row, meta) {
+                            return `<div class="d-flex gap-2 text-center action" data-id="${data}" >
+                            <a href="/order/edit/${data}" class="btn btn-primary btn-edit mb-0"><i class="fa fa-edit" type="button"></i></a>
+                            <button class="btn btn-danger btn-delete mb-0"><i class="fa fa-trash" type="button"></i></button>
+                            </div>`;
+                        },
+                        "orderable": false
+                    },
+                    {
+                        data: "OrderNo",
+                    },
+                    {
+                        data: "OrderDate",
+                    },
+                    {
+                        data: "CustomerName",
+                    },
+                ]
             });
-        } );
+
+            $('#btnSearch').on('click', function () {
+                table.ajax.reload();
+            });
+
+            $('#export').on('click',(e) => {
+                fetch('/order/export')
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'SalesOrderReport.xlsx';
+                    link.click();
+                })
+                .catch(error => console.error('Error downloading the report:', error));
+            })
+
+            table.on('click', '.btn-delete', function () {
+                const row = $(this).closest('tr');
+                const itemId = row.find('.action').data('id');
+
+                Swal.fire({
+                  title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "Yes, delete it!",
+                  cancelButtonText: "No, cancel!",
+                  reverseButtons: true
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                      $.ajax({
+                        url: `/order/${itemId}`,
+                        type: 'DELETE',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                  title: "Deleted!",
+                                  text: "Your file has been deleted.",
+                                  icon: "success"
+                                });
+                                table.ajax.reload();
+                            } else {
+                                alert('Gagal menghapus data');
+                            }
+                        },
+                        error: function () {
+                            alert('Terjadi kesalahan saat menghapus data');
+                        }
+                        });
+                    } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                    Swal.fire({
+                      title: "Cancelled",
+                      text: "Your imaginary file is safe :)",
+                      icon: "error"
+                    });
+                  }
+                });
+            });
+
+        });
+
+
     </script>
 }
